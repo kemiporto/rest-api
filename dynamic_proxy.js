@@ -2,14 +2,14 @@ var httpProxy = require('./lib/http-proxy.js');
 var proxy = httpProxy.createProxy();
 var restify = require('restify');
 
-var options = {  
+var proxyTable = {  
   'foo.com': 'http://localhost:8001',
 }
 
 var server = restify.createServer();
 
 function respond(req, res) {
-    res.send(options);
+    res.send(proxyTable);
 }
 
 server.get('/', respond);
