@@ -18,13 +18,17 @@ var respondRouteTable = function(req, res) {
 server.get('/route', respondRouteTable);
 
 var respondRouteTableItem = function(req, res) {
-    res.send(routeTable[req.params.source]);
+    if(req.params.source in routeTable)
+	res.send(routeTable[req.params.source]);
+    else
+	res.send('no route for ' + req.params.source);
 };
 
 server.get('/route/:source', respondRouteTableItem);
 
 //http://localhost:8888/route   will give you the routeTable content
 //http://localhost:8888/route/foo.com   will give you the destination of foo.com
+//http://localhost:8888/route/not_in_table   will give you the answer no route from not_in_table
 
 require('http').createServer(function(req, res) {  
     console.log(req.headers);
