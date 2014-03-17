@@ -68,6 +68,9 @@ resource: POST - /route
 {"source" : "test.com",
  "dest" : "http://localhost:8002"} 
 content-type: application/json
+
+resource: PUT
+http://localhost:8888/route/foo.com?dest=http://localhost:8002 will change the destination of foo.com to http://localhost:8002
 */
 
 require('http').createServer(function(req, res) {  
