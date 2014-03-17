@@ -15,16 +15,16 @@ var respondRouteTable = function(req, res) {
     res.send(routeTable);
 };
 
-server.get('/', respondRouteTable);
+server.get('/route', respondRouteTable);
 
 var respondRouteTableItem = function(req, res) {
     res.send(routeTable[req.params.source]);
 };
 
-server.get('/:source', respondRouteTableItem);
+server.get('/route/:source', respondRouteTableItem);
 
-//http://localhost:8888/   will give you the routeTable content
-//http://localhost:8888/foo.com   will give you the destination of foo.com
+//http://localhost:8888/route   will give you the routeTable content
+//http://localhost:8888/route/foo.com   will give you the destination of foo.com
 
 require('http').createServer(function(req, res) {  
     console.log(req.headers);
