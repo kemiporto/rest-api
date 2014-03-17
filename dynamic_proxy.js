@@ -11,6 +11,7 @@ var server = restify.createServer();
 
 server.listen(8888);
 
+//TODO: put time limit on waiting response
 var respondRouteTable = function(req, res) {
     res.send(routeTable);
 };
@@ -40,6 +41,22 @@ var postRoute = function(req, res) {
 server.use(restify.bodyParser());
 server.post('/route', postRoute);
 
+var putRoute = function(req, res) {
+    console.log(req.headers);
+    console.log(req.body);
+    console.log(req.query.dest);
+    if(req.params.source in routeTable) {
+	routeTable[req.params.source] = req.query.dest;
+	res.end('updated route ' + req.params.source);
+    }
+    else
+	//TODO: return a json object (for example: { "error": "route does not exist" })
+	res.end('route does not exist. Use post method');
+}
+
+server.use(restify.queryParser());
+server.put('/route/:source', putRoute);
+
 /*
  http://localhost:8888/route   will give you the routeTable content
 
@@ -48,7 +65,8 @@ server.post('/route', postRoute);
  http://localhost:8888/route/not_in_table   will give you the answer no route for not_in_table
 
 resource: POST - /route
-{"source" : "test.com", "dest" : "http://localhost:8002" } 
+{"source" : "test.com",
+ "dest" : "http://localhost:8002"} 
 content-type: application/json
 */
 
@@ -60,7 +78,7 @@ require('http').createServer(function(req, res) {
 	}, function (e) {console.log(e);});
     else
 	//TODO: handle this error
-	proxy.web(req,res);
+	proxy.web(req,res, {target: req.headers.host});
 }).listen(8000);
 
 require('http').createServer(function(req, res) {  
