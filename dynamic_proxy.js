@@ -2,21 +2,28 @@ var httpProxy = require('./lib/http-proxy.js');
 var proxy = httpProxy.createProxy();
 var restify = require('restify');
 
-var proxyTable = {  
+var routeTable = {  
   'foo.com': 'http://localhost:8001',
 }
 
 var server = restify.createServer();
 
-function respond(req, res) {
-    res.send(proxyTable);
-}
-
-server.get('/', respond);
-
 server.listen(8888);
 
-//http://localhost:8888/   will give you the option content
+var respondRouteTable = function(req, res) {
+    res.send(routeTable);
+}
+
+server.get('/', respondRouteTable);
+
+var respondRouteTableItem = function(req, res) {
+    res.send(routeTable[req.params.source]);
+}
+
+server.get('/:source', respondRouteTableItem);
+
+//http://localhost:8888/   will give you the routeTable content
+//http://localhost:8888/foo.com   will give you the destination of foo.com
 
 /*
 require('http').createServer(function(req, res) {  
