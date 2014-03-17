@@ -2,6 +2,7 @@ var httpProxy = require('./lib/http-proxy.js');
 var proxy = httpProxy.createProxy();
 var restify = require('restify');
 
+//contains the routing information
 var routeTable = {  
   'foo.com': 'http://localhost:8001',
 }
@@ -12,24 +13,23 @@ server.listen(8888);
 
 var respondRouteTable = function(req, res) {
     res.send(routeTable);
-}
+};
 
 server.get('/', respondRouteTable);
 
 var respondRouteTableItem = function(req, res) {
     res.send(routeTable[req.params.source]);
-}
+};
 
 server.get('/:source', respondRouteTableItem);
 
 //http://localhost:8888/   will give you the routeTable content
 //http://localhost:8888/foo.com   will give you the destination of foo.com
 
-/*
 require('http').createServer(function(req, res) {  
     console.log(req.headers);
   proxy.web(req, res, {
-    target: options[req.headers.host]
+    target: routeTable[req.headers.host]
   }, function (e) {console.log(e);});
 }).listen(8000);
 
@@ -43,7 +43,6 @@ require('http').createServer(function(req, res) {
 
 require('http').createServer(function(req, res) {
   var query = require('url').parse(req.url, true).query;
-  options[query.src] = query.dst;
+  routeTable[query.src] = query.dst;
   res.end('ok');
 }).listen(7238);
-*/
