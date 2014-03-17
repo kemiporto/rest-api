@@ -27,9 +27,9 @@ var respondRouteTableItem = function(req, res) {
 server.get('/route/:source', respondRouteTableItem);
 
 var postRoute = function(req, res) {
-    console.log(req.params.source + ' ' + req.params.dest);
     console.log(req.body);
     if(req.params.source in routeTable)
+	//TODO: return a json object (for example: { "error": "route not found" }
 	res.send('route already exist. Use put method to change it');
     else {
 	routeTable[req.params.source] = req.params.dest;
@@ -54,9 +54,13 @@ content-type: application/json
 
 require('http').createServer(function(req, res) {  
     console.log(req.headers);
-  proxy.web(req, res, {
-    target: routeTable[req.headers.host]
-  }, function (e) {console.log(e);});
+    if( req.headers.host != undefined && req.headers.host in routeTable)
+	proxy.web(req, res, {
+	    target: routeTable[req.headers.host]
+	}, function (e) {console.log(e);});
+    else
+	//TODO: handle this error
+	proxy.web(req,res);
 }).listen(8000);
 
 require('http').createServer(function(req, res) {  
