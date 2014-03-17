@@ -57,6 +57,19 @@ var putRoute = function(req, res) {
 server.use(restify.queryParser());
 server.put('/route/:source', putRoute);
 
+var deleteRoute = function(req, res) {
+    console.log(req.params.source);
+    if(req.params.source in routeTable) {
+	delete routeTable[req.params.source];
+	res.end(req.params.source + ' route deleted');
+    }
+    else
+	//TODO: return a json object (for example: { "error": "route does not exist" })
+	res.end('route does not exist.');
+}
+
+server.del('/route/:source', deleteRoute);
+
 /*
  http://localhost:8888/route   will give you the routeTable content
 
@@ -68,9 +81,19 @@ resource: POST - /route
 {"source" : "test.com",
  "dest" : "http://localhost:8002"} 
 content-type: application/json
+get on new route will return new route information
+post on same route won't be allowed
+put on new route should work
 
 resource: PUT
 http://localhost:8888/route/foo.com?dest=http://localhost:8002 will change the destination of foo.com to http://localhost:8002
+get on route should have update information
+
+resource: DELETE
+http://localhost:8888/route/foo.com will delete route for foo.com
+get on foo.com will return nothing
+you can post to foo.com now
+you cannot put on foo.com
 */
 
 require('http').createServer(function(req, res) {  
