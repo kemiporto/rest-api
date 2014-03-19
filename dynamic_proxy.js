@@ -30,6 +30,7 @@ server.get('/route/:source', respondRouteTableItem);
 
 var postRoute = function(req, res) {
     console.log(req.body);
+    console.log(req.head);
     if(req.params.source in routeTable)
 	//TODO: return a json object (for example: { "error": "route not found" }
 	res.send('route already exist. Use put method to change it');
