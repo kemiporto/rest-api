@@ -17,13 +17,13 @@ var respondRouteTable = function(req, res) {
     res.send(routeTable);
 };
 
-server.get('/route', respondRouteTable);
+server.get('/route ', respondRouteTable);
 
 var respondRouteTableItem = function(req, res) {
     if(req.params.source in routeTable)
 	res.send(routeTable[req.params.source]);
     else
-	res.send('no route for ' + req.params.source);
+	res.send('no route for: ' + req.params.source);
 };
 
 server.get('/route/:source', respondRouteTableItem);
@@ -35,7 +35,7 @@ var postRoute = function(req, res) {
 	res.send('route already exist. Use put method to change it');
     else {
 	routeTable[req.params.source] = req.params.dest;
-	res.end('added route ' + req.params.source + ' --> ' + req.params.dest);
+	res.end('added route is:' + req.params.source + ' --> ' + req.params.dest);
     }
 }
 
