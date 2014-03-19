@@ -44,7 +44,7 @@ server.use(restify.bodyParser());
 server.post('/route', postRoute);
 
 var putRoute = function(req, res) {
-    console.log(req.headers);
+    
     console.log(req.body);
     console.log(req.query.dest);
     if(req.params.source in routeTable) {
