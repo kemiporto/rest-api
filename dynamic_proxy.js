@@ -11,7 +11,7 @@ var server = restify.createServer();
 
 server.listen(8888);
 //Inserted code for server time out
-server.setTimeout(function() {console.log(Date.now() }, 1000);
+//server.setTimeout(function() {console.log(Date.now() }, 1000);
 //TODO: put time limit on waiting response
 var respondRouteTable = function(req, res) {
     res.send(routeTable);
