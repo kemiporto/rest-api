@@ -7,6 +7,7 @@ var routeTable = {
   'foo.com': 'http://localhost:8001',
 }
 
+//TODO: messages on console.log so we know what the server is doing
 var server = restify.createServer();
 
 server.listen(8888);
