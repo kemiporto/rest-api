@@ -14,7 +14,10 @@ server.listen(8888);
 //Inserted code for server time out
 //server.setTimeout(function() {console.log(Date.now() }, 1000);
 //TODO: put time limit on waiting response
+
+console.log('running');
 var respondRouteTable = function(req, res) {
+    console.log('get request being executed');
     res.send(routeTable);
 };
 
@@ -111,12 +114,12 @@ require('http').createServer(function(req, res) {
 }).listen(8000);
 
 require('http').createServer(function(req, res) {  
-  res.end('done@8001\n');
-}).listen(8001);
+  res.end('done@10001\n');
+}).listen(10001);
 
 require('http').createServer(function(req, res) {  
-  res.end('done@8002\n');
-}).listen(8002);
+  res.end('done@10002\n');
+}).listen(10002);
 
 require('http').createServer(function(req, res) {  
   res.end('done@8080\n');
