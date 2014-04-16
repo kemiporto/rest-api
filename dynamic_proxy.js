@@ -48,7 +48,7 @@ server.use(restify.bodyParser());
 server.post('/route', postRoute);
 
 var putRoute = function(req, res) {
-    
+    //TODO: make sure dest is not empty or undefined
     console.log(req.body);
     console.log(req.query.dest);
     if(req.params.source in routeTable) {
@@ -62,6 +62,38 @@ var putRoute = function(req, res) {
 
 server.use(restify.queryParser());
 server.put('/route/:source', putRoute);
+
+var putAddRoute = function(req, res) {
+    console.log(req.params.source);
+    console.log(req.query);
+    if(!req.params.source in routeTable) {
+	//show error to user. address doesnt exist (change message above)
+	console.log("error: source doesn't exist");
+	
+    }
+    else if(req.query.add != undefined && req.query.add in routeTable) {
+	//show error to user. route already in table for this address (change message above)
+	console.log("error add already in table");
+    }
+    else if(req.query.add != undefined) {
+	console.log("adding destination " + req.query.add + " on " + req.params.source);
+	routeTable[req.params.source].push(req.query.add);
+	//TODO: improve message above
+	res.end("address added");
+    }
+}
+/*
+    if(req.query.del != undefined && req.query.del in routeTable) {
+	//improve message above
+	console.log("deleting address" + req.query.del);
+	routeTable[req.params.source].splice(routeTable.indexOf(req.params.source), 1);
+    }
+    else if(req.query.del != undefined) {
+	//show error to user. route cannot be deleted because it doesnt exist for given address (change message above)
+	console.log("cant delete unexistent address");
+    }
+*/
+server.put('/route/add/:source', putAddRoute);
 
 var deleteRoute = function(req, res) {
     console.log(req.params.source);
@@ -95,6 +127,10 @@ resource: PUT
 http://localhost:8888/route/foo.com
 {"dest" : ["http://localhost:10002", "http://localhost:10001"]} 
 get on route should have update information
+
+or
+
+http://localhost:8888/route/foo.com?add=http://localhost:8080
 
 resource: DELETE
 http://localhost:8888/route/foo.com will delete route for foo.com
