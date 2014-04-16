@@ -52,7 +52,7 @@ var putRoute = function(req, res) {
     console.log(req.body);
     console.log(req.query.dest);
     if(req.params.source in routeTable) {
-	routeTable[req.params.source] = req.query.dest;
+	routeTable[req.params.source] = req.params.dest;
 	res.end('updated route ' + req.params.source);
     }
     else
@@ -85,7 +85,7 @@ server.del('/route/:source', deleteRoute);
 
 resource: POST - /route
 {"source" : "test.com",
- "dest" : ["http://localhost:8002", "http://localhost:8001"]} 
+"dest" : ["http://localhost:8002", "http://localhost:8001"]} 
 content-type: application/json
 get on new route will return new route information
 post on same route won't be allowed
