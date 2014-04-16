@@ -4,7 +4,7 @@ var restify = require('restify');
 
 //contains the routing information
 var routeTable = {  
-    'foo.com': ['http://localhost:10001', 'http://localhost:10002']
+    'foo.com': ['http://localhost:10001', 'http://localhost:10002', 'http://localhost:8081']
 }
 
 //TODO: messages on console.log so we know what the server is doing
