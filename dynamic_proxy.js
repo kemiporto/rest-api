@@ -90,7 +90,8 @@ var putAddRoute = function(req, res) {
 		console.log("valid URL");
 	    }
 	    else {
-		console.log("unvalid URL");
+		console.log("invalid URL");
+		res.send("URL: " + req.query.add + " is not a valid URL");
 	    }
 	    //TODO: improve message above
 	    res.end("Address added in routing table");
