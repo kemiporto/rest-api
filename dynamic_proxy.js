@@ -149,7 +149,7 @@ get on route should have update information
 
 or
 
-http://localhost:8888/route/foo.com?add=http://localhost:8080 will add http://localhost:8080 destination to foo.com source in routeTable
+http://localhost:8888/route/add/foo.com?add=http://localhost:8080 will add http://localhost:8080 destination to foo.com source in routeTable
 get on route will have new address
 if source doesn't exist or address to be added is already there, should return a error message
 
