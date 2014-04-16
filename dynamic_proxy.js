@@ -36,11 +36,13 @@ var postRoute = function(req, res) {
     console.log(req.body);
     console.log(req.head);
     if(req.params.source in routeTable)
-	//TODO: return a json object (for example: { "error": "route not found" }
-	res.send('route already exist. Use put method to change it');
+    //TODO: return a json object (for example: { "error": "route not found" }
+        console.log('error:source provided does not exist');
+    res.send('route already exist. Use put method to change it');
     else {
-	routeTable[req.params.source] = req.params.dest;
-	res.end('added route is:' + req.params.source + ' --> ' + req.params.dest);
+    routeTable[req.params.source] = req.params.dest;
+    console.log('successfully added route in routing table');
+    res.end('added route is:' + req.params.source + ' --> ' + req.params.dest);
     }
 }
 
