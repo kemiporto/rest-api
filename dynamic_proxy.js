@@ -41,7 +41,7 @@ var postRoute = function(req, res) {
     res.send('route already exist. Use put method to change it');
     else {
     routeTable[req.params.source] = req.params.dest;
-    console.log("successfully added route in routing table"+req.params.dest);
+    console.log("successfully added route in routing table:  req.params.source :" + req.params.dest);
     res.end('added route is:' + req.params.source + ' --> ' + req.params.dest);
     }
 }
