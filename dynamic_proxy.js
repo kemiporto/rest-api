@@ -110,7 +110,7 @@ var putDelRoute = function(req, res) {
 	console.log(req.query.del);
 	console.log(routeTable[req.params.source]);
 	console.log("cant delete unexistent address");
-	res.end("error");
+	res.end("Error!! can't delete a non-existing address...");
     }
 }
 
