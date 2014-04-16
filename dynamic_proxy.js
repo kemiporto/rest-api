@@ -1,6 +1,7 @@
 var httpProxy = require('./lib/http-proxy.js');
 var proxy = httpProxy.createProxy();
 var restify = require('restify');
+var validator = require('validator');
 
 //contains the routing information
 var routeTable = {  
@@ -35,10 +36,11 @@ server.get('/route/:source', respondRouteTableItem);
 var postRoute = function(req, res) {
     console.log(req.body);
     console.log(req.head);
-    if(req.params.source in routeTable)
+    if(req.params.source in routeTable) {
     //TODO: return a json object (for example: { "error": "route not found" }
         console.log('error:source provided does not exist');
     res.send('route already exist. Use put method to change it');
+    }
     else {
     routeTable[req.params.source] = req.params.dest;
     console.log("successfully added route in routing table"+req.params.dest);
@@ -84,6 +86,12 @@ var putAddRoute = function(req, res) {
 	else if(req.query.add != undefined) {
 	    console.log("adding destination " + req.query.add + " on " + req.params.source);
 	    routeTable[req.params.source].push(req.query.add);
+	    if(validator.isURL(req.query.add)){
+		console.log("valid URL");
+	    }
+	    else {
+		console.log("unvalid URL");
+	    }
 	    //TODO: improve message above
 	    res.end("Address added in routing table");
 	}
