@@ -70,20 +70,20 @@ var putAddRoute = function(req, res) {
     console.log(req.query);
     if(!(req.params.source in routeTable)) {
 	//TODO: finish this part. show error to user. address doesnt exist (change message above) 
-	console.log("error: source doesn't exist");
+	console.log("Error !! Source does not exist ! Try again ....");
 	
     }
     else {
 	var addr = routeTable[req.params.source];
 	if(req.query.add != undefined && routeTable[req.params.source].indexOf(req.query.add) != -1) {
 	    //TODO: finish this part. show error to user. route already in table for this address (change message above)
-	    console.log("error add already in table");
+	    console.log("Address already exists in routing table");
 	}
 	else if(req.query.add != undefined) {
 	    console.log("adding destination " + req.query.add + " on " + req.params.source);
 	    routeTable[req.params.source].push(req.query.add);
 	    //TODO: improve message above
-	    res.end("address added");
+	    res.end("Address added in routing table");
 	}
     }
 }
