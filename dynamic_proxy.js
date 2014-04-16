@@ -35,14 +35,14 @@ server.get('/route/:source', respondRouteTableItem);
 var postRoute = function(req, res) {
     console.log(req.body);
     console.log(req.head);
-    if(req.params.source in routeTable){
+    if(req.params.source in routeTable)
     //TODO: return a json object (for example: { "error": "route not found" }
         console.log('error:source provided does not exist');
-    res.send('route already exist. Use put method to change it');}
+    res.send('route already exist. Use put method to change it');
     else {
     routeTable[req.params.source] = req.params.dest;
-    //console.log("successfully added route in routing table:  req.params.source :" + req.params.dest);
-    res.end('newly added route is:' + req.params.source + ' --> ' + req.params.dest);
+    console.log("successfully added route in routing table"+req.params.dest);
+    res.end('added route is:' + req.params.source + ' --> ' + req.params.dest);
     }
 }
 
@@ -69,6 +69,7 @@ var putAddRoute = function(req, res) {
     console.log(req.params.source);
     console.log(req.query);
     if(!(req.params.source in routeTable)) {
+	res.end(" Error !!! Source address doesnt exist");
 	//TODO: finish this part. show error to user. address doesnt exist (change message above) 
 	console.log("Error !! Source does not exist ! Try again ....");
 	
@@ -76,8 +77,9 @@ var putAddRoute = function(req, res) {
     else {
 	var addr = routeTable[req.params.source];
 	if(req.query.add != undefined && routeTable[req.params.source].indexOf(req.query.add) != -1) {
-	return res.send(req.query.add + " Address is already present");
+	
 	    console.log("Address already exists in routing table");
+	    return res.send(req.query.add + " Address is already present");
 	}
 	else if(req.query.add != undefined) {
 	    console.log("adding destination " + req.query.add + " on " + req.params.source);
@@ -110,7 +112,7 @@ var putDelRoute = function(req, res) {
 	console.log(req.query.del);
 	console.log(routeTable[req.params.source]);
 	console.log("cant delete unexistent address");
-	res.end("Error!! can't delete a non-existing address...");
+	res.end("error");
     }
 }
 
