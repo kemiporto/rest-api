@@ -4,7 +4,7 @@ var restify = require('restify');
 
 //contains the routing information
 var routeTable = {  
-  'foo.com': 'http://localhost:8001',
+    'foo.com': ['http://localhost:10001', 'http://localhost:10002']
 }
 
 //TODO: messages on console.log so we know what the server is doing
@@ -104,10 +104,15 @@ you cannot put on foo.com
 
 require('http').createServer(function(req, res) {  
     console.log(req.headers);
-    if( req.headers.host != undefined && req.headers.host in routeTable)
+    if( req.headers.host != undefined && req.headers.host in routeTable) {
+	var address =  routeTable[req.headers.host].shift();
+	console.log(address);
 	proxy.web(req, res, {
-	    target: routeTable[req.headers.host]
+	    target: address
 	}, function (e) {console.log(e);});
+	routeTable[req.headers.host].push(address);
+	console.log(routeTable);
+    }
     else
 	//TODO: handle this error
 	proxy.web(req,res, {target: req.headers.host});
