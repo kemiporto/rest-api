@@ -66,34 +66,53 @@ server.put('/route/:source', putRoute);
 var putAddRoute = function(req, res) {
     console.log(req.params.source);
     console.log(req.query);
-    if(!req.params.source in routeTable) {
-	//show error to user. address doesnt exist (change message above)
+    if(!(req.params.source in routeTable)) {
+	//TODO: finish this part. show error to user. address doesnt exist (change message above) 
 	console.log("error: source doesn't exist");
 	
     }
-    else if(req.query.add != undefined && req.query.add in routeTable) {
-	//show error to user. route already in table for this address (change message above)
-	console.log("error add already in table");
-    }
-    else if(req.query.add != undefined) {
-	console.log("adding destination " + req.query.add + " on " + req.params.source);
-	routeTable[req.params.source].push(req.query.add);
-	//TODO: improve message above
-	res.end("address added");
+    else {
+	var addr = routeTable[req.params.source];
+	if(req.query.add != undefined && routeTable[req.params.source].indexOf(req.query.add) != -1) {
+	    //TODO: finish this part. show error to user. route already in table for this address (change message above)
+	    console.log("error add already in table");
+	}
+	else if(req.query.add != undefined) {
+	    console.log("adding destination " + req.query.add + " on " + req.params.source);
+	    routeTable[req.params.source].push(req.query.add);
+	    //TODO: improve message above
+	    res.end("address added");
+	}
     }
 }
-/*
-    if(req.query.del != undefined && req.query.del in routeTable) {
-	//improve message above
-	console.log("deleting address" + req.query.del);
-	routeTable[req.params.source].splice(routeTable.indexOf(req.params.source), 1);
+
+server.put('/route/add/:source', putAddRoute);
+
+var putDelRoute = function(req, res) {
+    console.log(req.params.source);
+    console.log(req.query);
+    //TODO: don't allow destination to be empty
+    if(!req.params.source in routeTable) {
+	//TODO: finish this partshow error to user. address doesnt exist (change message above)
+	console.log("error: source doesn't exist");
+	
+    }
+    else if(req.query.del != undefined && routeTable[req.params.source].indexOf(req.query.del) != -1) {
+	console.log("deleting address " + req.query.del);
+	routeTable[req.params.source].splice(routeTable[req.params.source].indexOf(req.query.del), 1);
+	//TODO: improve message above
+	res.end("address deleted");
     }
     else if(req.query.del != undefined) {
-	//show error to user. route cannot be deleted because it doesnt exist for given address (change message above)
+	//TODO: finish this part. show error to user. route cannot be deleted because it doesnt exist for given address (change message above)
+	console.log(req.query.del);
+	console.log(routeTable[req.params.source]);
 	console.log("cant delete unexistent address");
+	res.end("error");
     }
-*/
-server.put('/route/add/:source', putAddRoute);
+}
+
+server.put('/route/del/:source', putDelRoute);
 
 var deleteRoute = function(req, res) {
     console.log(req.params.source);
@@ -130,7 +149,16 @@ get on route should have update information
 
 or
 
-http://localhost:8888/route/foo.com?add=http://localhost:8080
+http://localhost:8888/route/foo.com?add=http://localhost:8080 will add http://localhost:8080 destination to foo.com source in routeTable
+get on route will have new address
+if source doesn't exist or address to be added is already there, should return a error message
+
+or
+
+http://localhost:8888/route/del/foo.com?del=http://localhost:10001 will delete destination http://localhost:10001 from foo.com in routeTable
+get on route will not have deleted address
+if source doesn't exist or address to be removed is not a destination, should return a error
+don't allow destination to be empty
 
 resource: DELETE
 http://localhost:8888/route/foo.com will delete route for foo.com
