@@ -33,6 +33,7 @@ var respondRouteTableItem = function(req, res) {
 
 server.get('/route/:source', respondRouteTableItem);
 
+
 var postRoute = function(req, res) {
     console.log(req.body);
     console.log(req.head);
@@ -42,12 +43,22 @@ var postRoute = function(req, res) {
     res.send('route already exist. Use put method to change it');
     }
     else {
-    routeTable[req.params.source] = req.params.dest;
+
+    
+    
+    if(validator.isURL(req.params.dest)){
+console.log("valid URL");
+routeTable[req.params.source] = req.params.dest;
     console.log("successfully added route in routing table"+req.params.dest);
     res.end('added route is:' + req.params.source + ' --> ' + req.params.dest);
+   }
+   else {
+console.log("invalid URL");
+res.send("URL: " + req.params.dest+ " is not a valid URL");
+   }
+   
     }
 }
-
 server.use(restify.bodyParser());
 server.post('/route', postRoute);
 
