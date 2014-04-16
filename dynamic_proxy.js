@@ -92,7 +92,8 @@ post on same route won't be allowed
 put on new route should work
 
 resource: PUT
-http://localhost:8888/route/foo.com?dest=http://localhost:8002 will change the destination of foo.com to http://localhost:8002
+http://localhost:8888/route/foo.com
+{"dest" : ["http://localhost:10002", "http://localhost:10001"]} 
 get on route should have update information
 
 resource: DELETE
