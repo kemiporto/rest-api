@@ -85,7 +85,7 @@ server.del('/route/:source', deleteRoute);
 
 resource: POST - /route
 {"source" : "test.com",
- "dest" : "http://localhost:8002"} 
+ "dest" : ["http://localhost:8002", "http://localhost:8001"]} 
 content-type: application/json
 get on new route will return new route information
 post on same route won't be allowed
