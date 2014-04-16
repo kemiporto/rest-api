@@ -15,7 +15,7 @@ server.listen(8888);
 //server.setTimeout(function() {console.log(Date.now() }, 1000);
 //TODO: put time limit on waiting response
 
-console.log('running');
+console.log('Server running on port 8888');
 var respondRouteTable = function(req, res) {
     console.log('get request being executed');
     res.send(routeTable);
