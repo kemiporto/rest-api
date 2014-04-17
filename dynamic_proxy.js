@@ -5,7 +5,8 @@ var validator = require('validator');
 
 //contains the routing information
 var routeTable = {  
-    'foo.com': ['http://localhost:10001', 'http://localhost:10002', 'http://localhost:8081']
+    'foo.com': ['http://localhost:10001', 'http://localhost:10002', 'http://localhost:8081'],
+    'remote.com' :['http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10001', 'http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10002']
 }
 
 //TODO: messages on console.log so we know what the server is doing
