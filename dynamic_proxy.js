@@ -139,7 +139,7 @@ var putAddRoute = function(req, res) {
 		res.send("URL: " + req.query.add + " is not a valid URL");
 	    }
 	    //TODO: improve message above
-	    res.end("Address added in routing table");
+	    res.end(req.query.add  +" Address added in routing table");
 	}
     }
 }
