@@ -34,7 +34,6 @@ var respondRouteTableItem = function(req, res) {
 
 server.get('/route/:source', respondRouteTableItem);
 
-
 var postRoute = function(req, res) {
     console.log(req.body);
     console.log(req.head);
@@ -46,20 +45,54 @@ var postRoute = function(req, res) {
     else {
 
     
-    
-    if(validator.isURL(req.params.dest)){
-console.log("valid URL");
-routeTable[req.params.source] = req.params.dest;
-    console.log("successfully added route in routing table"+req.params.dest);
-    res.end('added route is:' + req.params.source + ' --> ' + req.params.dest);
-   }
-   else {
-console.log("invalid URL");
-res.send("URL: " + req.params.dest+ " is not a valid URL");
-   }
-   
+    if(req.params.dest.length<1)
+    {
+res.end('Input destination array is empty');
+console.log("Input destination array is empty");
+
     }
+
+    else
+    {
+    var dest=[];
+    var dest_invalid=[];
+   
+    for(var i=0;i<req.params.dest.length;i++)
+    {
+
+if(!validator.isURL(req.params.dest[i]))
+{
+console.log("URL: " + req.params.dest[i]+ " is not a valid URL");
+dest_invalid.push(req.params.dest[i]);
+
+//res.send("URL: " + req.params.dest[i]+ " is not a valid URL");
+
 }
+
+else
+    {
+       	dest.push(req.params.dest[i]);
+console.log("URL: " + req.params.dest[i]+ " added to routing table");
+//res.send("URL: " + req.params.dest[i]+ " added to routing table");
+
+}
+
+
+    }
+
+
+console.log("valid URL");
+routeTable[req.params.source] = dest;
+    console.log("successfully added route in routing table"+dest);
+    if(dest_invalid.length>=1)
+    res.end('added route is:' + req.params.source + ' --> ' + dest + "\n"+"Following invalid URLs were not added to the routing table  ---> "+dest_invalid);
+       else
+             res.end('added route is:' + req.params.source + ' --> ' + dest );
+
+}
+   }
+ }
+
 server.use(restify.bodyParser());
 server.post('/route', postRoute);
 
