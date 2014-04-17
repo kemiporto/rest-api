@@ -19,7 +19,7 @@ server.listen(8888);
 
 console.log('Server running on port 8888');
 var respondRouteTable = function(req, res) {
-    console.log('Executing HTTP GET ');
+    console.log('Executing HTTP GET Request');
     res.send(routeTable);
 };
 
