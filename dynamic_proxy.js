@@ -1,4 +1,4 @@
-var httpProxy = require('./lib/http-proxy.js');
+var httpProxy = require('http-proxy');
 var proxy = httpProxy.createProxy();
 var restify = require('restify');
 var validator = require('validator');
