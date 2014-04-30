@@ -1,3 +1,4 @@
+//importing the required node modules.The project uses nodejitsu/node-http-proxy as baseline project
 var httpProxy = require('http-proxy');
 var proxy = httpProxy.createProxy();
 var restify = require('restify');
