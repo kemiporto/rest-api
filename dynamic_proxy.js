@@ -27,6 +27,7 @@ var respondRouteTable = function(req, res) {
 
 server.get('/route ', respondRouteTable);
 
+//If the destination is there in routing table then it will return it or else it will show a message to user
 var respondRouteTableItem = function(req, res) {
     if(req.params.source in routeTable)
 	res.send(routeTable[req.params.source]);
