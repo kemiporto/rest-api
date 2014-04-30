@@ -13,11 +13,12 @@ var routeTable = {
 // We are creating a Restify server using the Restify Framework
 var server = restify.createServer();
 
+// This is the proxy server which listens on port 8888
 server.listen(8888);
 //Inserted code for server time out
 //server.setTimeout(function() {console.log(Date.now() }, 1000);
 //TODO: put time limit on waiting response
-
+//Server is active and listening on port 8888
 console.log('Server running on port 8888');
 var respondRouteTable = function(req, res) {
     console.log('Executing HTTP GET Request');
