@@ -125,6 +125,7 @@ var putAddRoute = function(req, res) {
 	console.log("Error !! Source does not exist ! Try again ....");
 	
     }
+    // checking conditions for put
     else {
 	var addr = routeTable[req.params.source];
 	if(req.query.add != undefined && routeTable[req.params.source].indexOf(req.query.add) != -1) {
@@ -132,6 +133,7 @@ var putAddRoute = function(req, res) {
 	    console.log("Address already exists in routing table");
 	    return res.send(req.query.add + " Address is already present");
 	}
+	//validating the url passed by user.
 	else if(req.query.add != undefined) {
 	    console.log("adding destination " + req.query.add + " on " + req.params.source);
 	    routeTable[req.params.source].push(req.query.add);
@@ -142,7 +144,6 @@ var putAddRoute = function(req, res) {
 		console.log("invalid URL");
 		res.send("URL: " + req.query.add + " is not a valid URL");
 	    }
-	    //TODO: improve message above
 	    res.end(req.query.add  +" Address added in routing table");
 	}
     }
