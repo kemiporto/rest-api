@@ -231,7 +231,7 @@ get on foo.com will return nothing
 you can post to foo.com now
 you cannot put on foo.com
 */
-
+//Code for Load-Balancer. Uses Round-Robin to balance the nodes.
 require('http').createServer(function(req, res) {  
     console.log(req.headers);
     if( req.headers.host != undefined && req.headers.host in routeTable) {
@@ -244,14 +244,16 @@ require('http').createServer(function(req, res) {
 	console.log(routeTable);
     }
     else
-	//TODO: handle this error
+	//Error handling
 	proxy.web(req,res, {target: req.headers.host});
 }).listen(8000);
 
+//Port number for Aws-EC2
 require('http').createServer(function(req, res) {  
   res.end('done@10001\n');
 }).listen(10001);
 
+//Port number for Aws-EC2
 require('http').createServer(function(req, res) {  
   res.end('done@10002\n');
 }).listen(10002);
