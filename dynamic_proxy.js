@@ -32,7 +32,7 @@ var respondRouteTableItem = function(req, res) {
     if(req.params.source in routeTable)
 	res.send(routeTable[req.params.source]);
     else
-	res.send('No Route for: ' + req.params.source);
+	res.send('No Route available for: ' + req.params.source);
 };
 
 server.get('/route/:source', respondRouteTableItem);
