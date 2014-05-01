@@ -167,8 +167,9 @@ var putDelRoute = function(req, res) {
 	routeTable[req.params.source].splice(routeTable[req.params.source].indexOf(req.query.del), 1);
 	res.end("address deleted");
     }
+    // show error to user. route cannot be deleted because it doesnt exist for given address (change message above)
+	
     else if(req.query.del != undefined) {
-	//TODO: finish this part. show error to user. route cannot be deleted because it doesnt exist for given address (change message above)
 	console.log(req.query.del);
 	console.log(routeTable[req.params.source]);
 	console.log("cant delete unexistent address");
