@@ -151,19 +151,20 @@ var putAddRoute = function(req, res) {
 
 server.put('/route/add/:source', putAddRoute);
 
+//API for Delete operattion
 var putDelRoute = function(req, res) {
     console.log(req.params.source);
     console.log(req.query);
-    //TODO: don't allow destination to be empty
+    //checks if route exists in the routing table on not
     if(!req.params.source in routeTable) {
 	//TODO: finish this partshow error to user. address doesnt exist (change message above)
 	console.log("error: source doesn't exist");
 	
     }
+    //checks the user input before deletion
     else if(req.query.del != undefined && routeTable[req.params.source].indexOf(req.query.del) != -1) {
 	console.log("deleting address " + req.query.del);
 	routeTable[req.params.source].splice(routeTable[req.params.source].indexOf(req.query.del), 1);
-	//TODO: improve message above
 	res.end("address deleted");
     }
     else if(req.query.del != undefined) {
