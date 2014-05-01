@@ -111,9 +111,11 @@ server.post('/route', postRoute);
 	res.end('route does not exist. Use post method');
 }
 
+//restify-queryParser is used to read multiple lines from the URl
 server.use(restify.queryParser());
 server.put('/route/:source', putRoute);
 
+//checks if the route is present in the routing table , if presents then updpates it else gives message to user
 var putAddRoute = function(req, res) {
     console.log(req.params.source);
     console.log(req.query);
