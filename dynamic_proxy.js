@@ -10,6 +10,16 @@ var routeTable = {
     'remote.com' :['http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10001', 'http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10002']
 }
 
+var routeTable = {
+	{ router: 'table.json' };
+	table.json = {
+		"router":
+		{
+		'foo.com': ['http://localhost:10001', 'http://localhost:10002', 'http://localhost:8081', 'http://localhost:8080'],
+    		'remote.com' :['http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10001', 'http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10002']	
+		}
+	}
+}
 // We are creating a Restify server using the Restify Framework
 var server = restify.createServer();
 
