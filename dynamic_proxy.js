@@ -6,7 +6,7 @@ var validator = require('validator');
 
 //contains the routing information. It has the default routing table
 var routeTable = {  
-    'foo.com': ['http://localhost:10001', 'http://localhost:10002', 'http://localhost:8081', 'http://localhost:8080'],
+    'foo.com': ['http://localhost:10001', 'http://localhost:10002', 'http://localhost:8081', 'http://localhost:8080', 'http://localhost:8082'],
     'remote.com' :['http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10001', 'http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10002']
 }
 
@@ -289,3 +289,7 @@ require('http').createServer(function(req, res) {
 require('http').createServer(function(req, res) {  
   res.end('done@8081\n');
 }).listen(8081);
+
+require('http').createServer(function(req, res) {  
+  res.end('done@8082\n');
+}).listen(8082);
