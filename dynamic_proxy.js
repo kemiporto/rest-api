@@ -112,6 +112,7 @@ routeTable[req.params.source] = dest;
 server.use(restify.bodyParser());
 server.post('/route', postRoute);
 // checks if the route is present in the routing table , if presents then updpates it else gives message to user
+var putRoute = function(req, res) {
     console.log(req.body);
     console.log(req.query.dest);
     if(req.params.source in routeTable) {
