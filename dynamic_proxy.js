@@ -90,8 +90,10 @@ routeTable[req.params.source] = dest;
     console.log("successfully added route in routing table"+dest);
     if(dest_invalid.length>=1 && dest.length>=1)
     res.end('added route is:' + req.params.source + ' --> ' + dest + "\n"+"Following invalid URLs were not added to the routing table  ---> "+dest_invalid);
-       else if(dest_invalid.length ==0)
+        else if(dest_invalid.length ==0 && dest.length>=1)
              res.end('added route is:' + req.params.source + ' --> ' + dest );
+             else
+    res.end("Following invalid URLs were not added to the routing table ---> "+dest_invalid);
 
 }
    }
