@@ -10,6 +10,7 @@ var routeTable = {
     'remote.com' :['http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10001', 'http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10002']
 }
 
+//To Update the routing table dyanmically
 var routeTable = {
 	{ router: 'table.json' };
 	table.json = {
