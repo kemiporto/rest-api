@@ -282,14 +282,17 @@ require('http').createServer(function(req, res) {
   res.end('done@10002\n');
 }).listen(10002);
 
+//Port number for localhost:8080
 require('http').createServer(function(req, res) {  
   res.end('done@8080\n');
 }).listen(8080);
 
+//Port number for localhost:8081
 require('http').createServer(function(req, res) {  
   res.end('done@8081\n');
 }).listen(8081);
 
+//Port number for localhost:8082
 require('http').createServer(function(req, res) {  
   res.end('done@8082\n');
 }).listen(8082);
