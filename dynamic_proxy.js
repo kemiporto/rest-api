@@ -25,6 +25,7 @@ var routeTable = {
 var server = restify.createServer();
 
 // This is the proxy server which listens on port 8888
+// this is the proxy server
 server.listen(8888);
 //Inserted code for server time out
 //server.setTimeout(function() {console.log(Date.now() }, 1000);
