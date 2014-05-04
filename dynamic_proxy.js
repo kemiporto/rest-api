@@ -1,4 +1,6 @@
-//importing the required node modules.The project uses nodejitsu/node-http-proxy as baseline project
+//node-http-proxy server is a programmable proxy server and load balancer.
+//importing the required node modules like restify and validator.
+//The project uses nodejitsu/node-http-proxy as baseline project
 var httpProxy = require('http-proxy');
 var proxy = httpProxy.createProxy();
 var restify = require('restify');
