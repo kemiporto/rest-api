@@ -11,7 +11,7 @@ var routeTable = {
 }
 
 //To Update the routing table dyanmically
-var routeTable = {
+/*var routeTable = {
 	{ router: 'table.json' };
 	table.json = {
 		"router":
@@ -21,6 +21,7 @@ var routeTable = {
 		}
 	}
 }
+*/
 // We are creating a Restify server using the Restify Framework
 var server = restify.createServer();
 
