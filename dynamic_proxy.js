@@ -18,6 +18,45 @@ var routeTable = {
     'foo.com': ['http://localhost:10001', 'http://localhost:10002', 'http://localhost:8081', 'http://localhost:8080', 'http://localhost:8082'],
     'remote.com' :['http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10001', 'http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10002']
 }
+//adding rout table information in the disk
+setInterval(function(){
+  //var j = 1;
+    console.log("inside write");
+    fs.writeFile('routeTableLatest.txt','Latest Routing Table ' + "\r\n", function (err) {
+        if (err) throw err;
+            console.log('File Created');
+    });
+      for(var j in routeTable){
+       // var dest_table = routeTable[j];
+        fs.appendFile('routeTableLatest.txt', "\r\n" + routeTable[j], function (err) {
+        if (err) throw err;
+        console.log('saved!'); 
+        }
+        );      
+        
+    
+}},25000);
+
+//saving bad routing to the disk
+setInterval(function(){
+  //var j = 1;
+    console.log("inside write");
+    fs.writeFile('routeDownAddrTableLatest.txt','Latest Down Address Routing Table ' + "\r\n", function (err) {
+        if (err) throw err;
+            console.log('File Created for Down Address');
+    });
+      for(var k in badRouteTable){
+       // var dest_table = routeTable[j];
+        fs.appendFile('routeDownAddrTableLatest.txt', "\r\n" + badRouteTable[k], function (err) {
+        if (err) throw err;
+        console.log('saved!'); 
+        }
+        );      
+        
+    
+}},25000);
+
+
 
 // We are creating a Restify server using the Restify Framework
 var server = restify.createServer();
