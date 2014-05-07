@@ -61,6 +61,8 @@ var getClientAddress = function (req) {
 
 // create a new routing path if it doesn't exist already in routing table , if already exists then displays an message
 var postRoute = function(req, res) {
+	 IP1 = getClientAddress(req);
+console.log("Client IP:--->:"+IP1);
     console.log(req.body);
     console.log(req.head);
     if(req.params.source in routeTable) {
@@ -136,6 +138,8 @@ server.use(restify.bodyParser());
 server.post('/route', postRoute);
 // checks if the route is present in the routing table , if presents then updpates it else gives message to user
 var putRoute = function(req, res) {
+	 IP1 = getClientAddress(req);
+console.log("Client IP:--->:"+IP1);
     console.log(req.body);
     console.log(req.query.dest);
     if(req.params.source in routeTable) {
@@ -153,6 +157,8 @@ server.put('/route/:source', putRoute);
 
 //checks if the route is present in the routing table , if presents then updpates it else gives message to user
 var putAddRoute = function(req, res) {
+	 IP1 = getClientAddress(req);
+console.log("Client IP:--->:"+IP1);
     console.log(req.params.source);
     console.log(req.query);
     if(!(req.params.source in routeTable)) {
@@ -189,6 +195,8 @@ server.put('/route/add/:source', putAddRoute);
 
 //API for Delete operattion
 var putDelRoute = function(req, res) {
+	 IP1 = getClientAddress(req);
+console.log("Client IP:--->:"+IP1);
     console.log(req.params.source);
     console.log(req.query);
     //checks if route exists in the routing table on not
