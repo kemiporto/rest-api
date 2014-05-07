@@ -334,6 +334,46 @@ var goodAddress = function(source, destination) {
     console.log(routeTable);
 }
 
+var checkUp = function(source, thisDest, thisPort) {
+    require('http').get(
+    {hostname:thisDest, port:thisPort, path:'/', agent:false}, 
+    function(response) {
+        if(response.statusCode!=200) {
+        var ad = "http://" + thisDest + ":" + thisPort;
+        console.log(ad + " is down");
+        badAddress(source, ad);
+        }
+        else {
+        console.log(thisDest + ":" + thisPort + " continues up");
+        }
+    })
+    .on('error', function(e) {
+        var ad = "http://" + thisDest + ":" + thisPort;
+        console.log(ad + " is down");
+        badAddress(source, ad);
+    }) 
+}
+
+var checkDown = function(source, thisDest, thisPort) {
+    require('http').get(
+    {hostname:thisDest, port:thisPort, path:'/', agent:false}, 
+    function(response) {
+        if(response.statusCode!=200) {
+        var ad = "http://" + thisDest + ":" + thisPort;
+        console.log(ad + " continues down");
+        }
+        else {
+        var ad = "http://" + thisDest + ":" + thisPort;
+        console.log(ad + " is up");
+        goodAddress(source, ad);
+        }
+    })
+    .on('error', function(e) {
+        var ad = "http://" + thisDest + ":" + thisPort;
+        console.log(ad + " continues down");
+    }) 
+}
+
 //Code for Load-Balancer. Uses Round-Robin to balance the nodes.
 require('http').createServer(function(req, res) {  
     console.log(req.headers);
