@@ -5,6 +5,12 @@ var httpProxy = require('http-proxy');
 var proxy = httpProxy.createProxy();
 var restify = require('restify');
 var validator = require('validator');
+var Cookies = require('cookies');
+
+var stickSession = false;
+
+var sessionExpiration = 5;
+
 var IP1;
 
 //contains the routing information. It has the default routing table
@@ -13,35 +19,28 @@ var routeTable = {
     'remote.com' :['http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10001', 'http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10002']
 }
 
-//To Update the routing table dyanmically
-/*var routeTable = {
-	{ router: 'table.json' };
-	table.json = {
-		"router":
-		{
-		'foo.com': ['http://localhost:10001', 'http://localhost:10002', 'http://localhost:8081', 'http://localhost:8080'],
-    		'remote.com' :['http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10001', 'http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10002']	
-		}
-	}
-}
-*/
 // We are creating a Restify server using the Restify Framework
 var server = restify.createServer();
 
 // This is the proxy server which listens on port 8888
 // this is the proxy server
 server.listen(8888);
-//Inserted code for server time out
-//server.setTimeout(function() {console.log(Date.now() }, 1000);
-//TODO: put time limit on waiting response
-//Server is active and listening on port 8888
 console.log('Server running on port 8888');
+
 var respondRouteTable = function(req, res) {
     console.log('Executing HTTP GET Request');
     res.send(routeTable);
 };
 
 server.get('/route ', respondRouteTable);
+
+var getStickSession = function(req, res) {
+    console.log('GET stick session attributes');
+    var response = {"stick session":stickSession, "session expiration time":sessionExpiration}
+    res.send(response);
+}
+
+server.get('/sticksession', getStickSession);
 
 //If the destination is there in routing table then it will return it or else it will show a message to user
 var respondRouteTableItem = function(req, res) {
@@ -274,17 +273,42 @@ http://localhost:8888/route/foo.com will delete route for foo.com
 get on foo.com will return nothing
 you can post to foo.com now
 you cannot put on foo.com
+
+http://localhost:8888/sticksession/setStick?sticksession=true will set stickSession to true
+
+http://localhost:8888/sticksession/setExpiration?expiration=10 will set expirationTime to 10
 */
+
 //Code for Load-Balancer. Uses Round-Robin to balance the nodes.
 require('http').createServer(function(req, res) {  
     console.log(req.headers);
     if( req.headers.host != undefined && req.headers.host in routeTable) {
-	var address =  routeTable[req.headers.host].shift();
+	var cookies = new Cookies(req, res);
+	var address =  routeTable[req.headers.host][1];
+	if(stickSession) {
+	    console.log("using sticky session");
+	    if(cookies.get(req.headers.host) != undefined) {
+		address = cookies.get(req.headers.host);
+	    }
+	    else {
+		if(sessionExpiration == -1) {
+			cookies.set(req.headers.host, address);
+		    console.log("no expiration on sticky session");
+		}
+		else {
+		    var expiration = new Date(Date.now() + sessionExpiration * 1000);
+		    console.log("sticky session will expire in " + sessionExpiration + " seconds");
+		    cookies.set(req.headers.host, address, {expires:expiration});
+		}
+		
+	    }
+	}
+	routeTable[req.headers.host].splice(routeTable[req.headers.host].indexOf(address), 1);
 	console.log(address);
+	routeTable[req.headers.host].push(address);
 	proxy.web(req, res, {
 	    target: address
 	}, function (e) {console.log(e);});
-	routeTable[req.headers.host].push(address);
 	console.log(routeTable);
     }
     else
