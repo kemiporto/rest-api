@@ -44,16 +44,16 @@ setInterval(function(){
 //saving bad routing to the disk
 setInterval(function(){
  
-    console.log("inside write");
+    //console.log("inside write");
     fs.writeFile('routeDownAddrTableLatest.txt','Latest Down Address Routing Table ' + "\r\n", function (err) {
         if (err) throw err;
-            console.log('File Created for Down Address');
+            //console.log('File Created for Down Address');
     });
       for(var k in badRouteTable){
        
         fs.appendFile('routeDownAddrTableLatest.txt', "\r\n" + badRouteTable[k], function (err) {
         if (err) throw err;
-        console.log('saved!'); 
+        //console.log('saved!'); 
         }
         );      
         
