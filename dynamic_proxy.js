@@ -374,6 +374,26 @@ var checkDown = function(source, thisDest, thisPort) {
     }) 
 }
 
+var checkTable = function(table, f) {
+    for(var source in table){
+    var destination = table[source];
+    for(var i=0; i < destination.length; i++)
+    { 
+        var thisDest = url.parse(destination[i],true, false).hostname;
+        var thisPort = url.parse(destination[i],true, false).port;
+        console.log("checking -- " + thisDest + ":" + thisPort);
+        f(source, thisDest, thisPort);
+    }
+    }
+
+}
+
+setInterval(function(){
+    checkTable(routeTable, checkUp);
+    checkTable(badRouteTable, checkDown);
+    
+},15000);
+
 //Code for Load-Balancer. Uses Round-Robin to balance the nodes.
 require('http').createServer(function(req, res) {  
     console.log(req.headers);
