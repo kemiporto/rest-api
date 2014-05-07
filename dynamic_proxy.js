@@ -45,9 +45,9 @@ server.get('/sticksession', getStickSession);
 //If the destination is there in routing table then it will return it or else it will show a message to user
 var respondRouteTableItem = function(req, res) {
     if(req.params.source in routeTable)
-    res.send(routeTable[req.params.source]);
+	res.send(routeTable[req.params.source]);
     else
-    res.send('No Route available for: ' + req.params.source);
+	res.send('No Route available for: ' + req.params.source);
 };
 
 server.get('/route/:source', respondRouteTableItem);
@@ -60,7 +60,7 @@ var getClientAddress = function (req) {
 
 // create a new routing path if it doesn't exist already in routing table , if already exists then displays an message
 var postRoute = function(req, res) {
-     IP1 = getClientAddress(req);
+	 IP1 = getClientAddress(req);
 console.log("Client IP:--->:"+IP1);
     console.log(req.body);
     console.log(req.head);
@@ -99,7 +99,7 @@ dest_invalid.push(req.params.dest[i]);
 //if the route is in  valid format its added to the routing table
 else
     {
-        dest.push(req.params.dest[i]);
+       	dest.push(req.params.dest[i]);
 console.log("URL: " + req.params.dest[i]+ " added to routing table");
 //res.send("URL: " + req.params.dest[i]+ " added to routing table");
 
@@ -114,18 +114,18 @@ routeTable[req.params.source] = dest;
     console.log("successfully added route in routing table"+dest);
     if(dest_invalid.length>=1 && dest.length>=1)
     {
-        //display both valid and invalid URL list
+    	//display both valid and invalid URL list
     console.log('added route is:' + req.params.source + ' --> ' + dest + "\n"+"Following invalid URLs were not added to the routing table  ---> "+dest_invalid);
     res.end('added route is:' + req.params.source + ' --> ' + dest + "\n"+"Following invalid URLs were not added to the routing table  ---> "+dest_invalid);
     }
         else if(dest_invalid.length ==0 && dest.length>=1){
-            //display all the valid URL list
+        	//display all the valid URL list
              console.log('added route is:' + req.params.source + ' --> ' + dest);
              res.end('added route is:' + req.params.source + ' --> ' + dest);
         }
              else
              {
-    //display the Invalid URL list          
+    //display the Invalid URL list         	
     console.log("Following invalid URLs were not added to the routing table ---> "+dest_invalid);
     res.end("Following invalid URLs were not added to the routing table ---> "+dest_invalid);
 }
@@ -137,17 +137,17 @@ server.use(restify.bodyParser());
 server.post('/route', postRoute);
 // checks if the route is present in the routing table , if presents then updpates it else gives message to user
 var putRoute = function(req, res) {
-     IP1 = getClientAddress(req);
+	 IP1 = getClientAddress(req);
 console.log("Client IP:--->:"+IP1);
     console.log(req.body);
     console.log(req.query.dest);
     if(req.params.source in routeTable) {
-    routeTable[req.params.source] = req.params.dest;
-    res.end('updated route ' + req.params.source);
+	routeTable[req.params.source] = req.params.dest;
+	res.end('updated route ' + req.params.source);
     }
     else
-    //TODO: return a json object (for example: { "error": "route does not exist" })
-    res.end('route does not exist. Use post method');
+	//TODO: return a json object (for example: { "error": "route does not exist" })
+	res.end('route does not exist. Use post method');
 }
 
 //restify-queryParser is used to read multiple lines from the URl
@@ -157,11 +157,11 @@ server.put('/route/:source', putRoute);
 var putStickSession = function(req, res) {
     console.log(req.query);
     if(req.query.sticksession != undefined) {
-    stickSession = req.query.sticksession;
-    res.end('updated stick session to: ' + req.query.sticksession);
+	stickSession = req.query.sticksession;
+	res.end('updated stick session to: ' + req.query.sticksession);
     }
     else {
-    res.send("sticksession query parameter must be true or false");
+	res.send("sticksession query parameter must be true or false");
     }
 }
 
@@ -170,11 +170,11 @@ server.put('/sticksession/setStick', putStickSession);
 var putExpirationTime = function(req, res) {
     console.log(req.query);
     if(req.query.expiration != undefined) {
-    expirationTime = req.query.expiration;
-    res.end('updated expiration time of stick session to: ' + req.query.expiration);
+	expirationTime = req.query.expiration;
+	res.end('updated expiration time of stick session to: ' + req.query.expiration);
     }
     else {
-    res.send("expiration query parameter must have a value (in seconds)");
+	res.send("expiration query parameter must have a value (in seconds)");
     }
 }
 
@@ -182,37 +182,37 @@ server.put('/sticksession/setExpiration', putExpirationTime);
 
 //checks if the route is present in the routing table , if presents then updpates it else gives message to user
 var putAddRoute = function(req, res) {
-     IP1 = getClientAddress(req);
+	 IP1 = getClientAddress(req);
 console.log("Client IP:--->:"+IP1);
     console.log(req.params.source);
     console.log(req.query);
     if(!(req.params.source in routeTable)) {
-    res.end(" Error !!! Source address doesnt exist");
-    //TODO: finish this part. show error to user. address doesnt exist (change message above) 
-    console.log("Error !! Source does not exist ! Try again ....");
-    
+	res.end(" Error !!! Source address doesnt exist");
+	//TODO: finish this part. show error to user. address doesnt exist (change message above) 
+	console.log("Error !! Source does not exist ! Try again ....");
+	
     }
     // checking conditions for put
     else {
-    var addr = routeTable[req.params.source];
-    if(req.query.add != undefined && routeTable[req.params.source].indexOf(req.query.add) != -1) {
-    
-        console.log("Address already exists in routing table");
-        return res.send(req.query.add + " Address is already present");
-    }
-    //validating the url passed by user.
-    else if(req.query.add != undefined) {
-        console.log("adding destination " + req.query.add + " on " + req.params.source);
-        routeTable[req.params.source].push(req.query.add);
-        if(validator.isURL(req.query.add)){
-        console.log("valid URL");
-        }
-        else {
-        console.log("invalid URL");
-        res.send("URL: " + req.query.add + " is not a valid URL");
-        }
-        res.end(req.query.add  +" Address added in routing table");
-    }
+	var addr = routeTable[req.params.source];
+	if(req.query.add != undefined && routeTable[req.params.source].indexOf(req.query.add) != -1) {
+	
+	    console.log("Address already exists in routing table");
+	    return res.send(req.query.add + " Address is already present");
+	}
+	//validating the url passed by user.
+	else if(req.query.add != undefined) {
+	    console.log("adding destination " + req.query.add + " on " + req.params.source);
+	    routeTable[req.params.source].push(req.query.add);
+	    if(validator.isURL(req.query.add)){
+		console.log("valid URL");
+	    }
+	    else {
+		console.log("invalid URL");
+		res.send("URL: " + req.query.add + " is not a valid URL");
+	    }
+	    res.end(req.query.add  +" Address added in routing table");
+	}
     }
 }
 
@@ -220,29 +220,29 @@ server.put('/route/add/:source', putAddRoute);
 
 //API for Delete operattion
 var putDelRoute = function(req, res) {
-     IP1 = getClientAddress(req);
+	 IP1 = getClientAddress(req);
 console.log("Client IP:--->:"+IP1);
     console.log(req.params.source);
     console.log(req.query);
     //checks if route exists in the routing table on not
     if(!req.params.source in routeTable) {
-    //TODO: finish this partshow error to user. address doesnt exist (change message above)
-    console.log("error: source doesn't exist");
-    
+	//TODO: finish this partshow error to user. address doesnt exist (change message above)
+	console.log("error: source doesn't exist");
+	
     }
     //checks the user input before deletion
     else if(req.query.del != undefined && routeTable[req.params.source].indexOf(req.query.del) != -1) {
-    console.log("deleting address " + req.query.del);
-    routeTable[req.params.source].splice(routeTable[req.params.source].indexOf(req.query.del), 1);
-    res.end("address deleted");
+	console.log("deleting address " + req.query.del);
+	routeTable[req.params.source].splice(routeTable[req.params.source].indexOf(req.query.del), 1);
+	res.end("address deleted");
     }
     // show error to user. route cannot be deleted because it doesnt exist for given address (change message above)
-    
+	
     else if(req.query.del != undefined) {
-    console.log(req.query.del);
-    console.log(routeTable[req.params.source]);
-    console.log("cant delete unexistent address");
-    res.end("error");
+	console.log(req.query.del);
+	console.log(routeTable[req.params.source]);
+	console.log("cant delete unexistent address");
+	res.end("error");
     }
 }
 
@@ -251,12 +251,12 @@ server.put('/route/del/:source', putDelRoute);
 var deleteRoute = function(req, res) {
     console.log(req.params.source);
     if(req.params.source in routeTable) {
-    delete routeTable[req.params.source];
-    res.end(req.params.source + ' route deleted');
+	delete routeTable[req.params.source];
+	res.end(req.params.source + ' route deleted');
     }
     else
-    //TODO: return a json object (for example: { "error": "route does not exist" })
-    res.end('route does not exist.');
+	//TODO: return a json object (for example: { "error": "route does not exist" })
+	res.end('route does not exist.');
 }
 
 server.del('/route/:source', deleteRoute);
@@ -309,16 +309,16 @@ var badAddress = function(source, destination) {
     console.log("removing -- " + source + "/" + destination);
     var index = routeTable[source].indexOf(destination);
     if(index == -1) {
-    return;
+	return;
     }
     routeTable[source].splice(index, 1);
     console.log(source + "/" + destination + " deleted")
     console.log(routeTable);
     if(source in badRouteTable) {
-    badRouteTable[source].push(destination);
+	badRouteTable[source].push(destination);
     }
     else {
-    badRouteTable[source] = [destination];
+	badRouteTable[source] = [destination];
     }
 }
 
@@ -326,7 +326,7 @@ var goodAddress = function(source, destination) {
     console.log("adding -- " + source + "/" + destination);
     var index = badRouteTable[source].indexOf(destination);
     if(index == -1) {
-    return;
+	return;
     }
     badRouteTable[source].splice(index, 1);
     routeTable[source].push(destination);
@@ -336,54 +336,54 @@ var goodAddress = function(source, destination) {
 
 var checkUp = function(source, thisDest, thisPort) {
     require('http').get(
-    {hostname:thisDest, port:thisPort, path:'/', agent:false}, 
-    function(response) {
-        if(response.statusCode!=200) {
-        var ad = "http://" + thisDest + ":" + thisPort;
-        console.log(ad + " is down");
-        badAddress(source, ad);
-        }
-        else {
-        console.log(thisDest + ":" + thisPort + " continues up");
-        }
-    })
-    .on('error', function(e) {
-        var ad = "http://" + thisDest + ":" + thisPort;
-        console.log(ad + " is down");
-        badAddress(source, ad);
-    }) 
+	{hostname:thisDest, port:thisPort, path:'/', agent:false}, 
+	function(response) {
+	    if(response.statusCode!=200) {
+		var ad = "http://" + thisDest + ":" + thisPort;
+		console.log(ad + " is down");
+		badAddress(source, ad);
+	    }
+	    else {
+		console.log(thisDest + ":" + thisPort + " continues up");
+	    }
+	})
+	.on('error', function(e) {
+	    var ad = "http://" + thisDest + ":" + thisPort;
+	    console.log(ad + " is down");
+	    badAddress(source, ad);
+	}) 
 }
 
 var checkDown = function(source, thisDest, thisPort) {
     require('http').get(
-    {hostname:thisDest, port:thisPort, path:'/', agent:false}, 
-    function(response) {
-        if(response.statusCode!=200) {
-        var ad = "http://" + thisDest + ":" + thisPort;
-        console.log(ad + " continues down");
-        }
-        else {
-        var ad = "http://" + thisDest + ":" + thisPort;
-        console.log(ad + " is up");
-        goodAddress(source, ad);
-        }
-    })
-    .on('error', function(e) {
-        var ad = "http://" + thisDest + ":" + thisPort;
-        console.log(ad + " continues down");
-    }) 
+	{hostname:thisDest, port:thisPort, path:'/', agent:false}, 
+	function(response) {
+	    if(response.statusCode!=200) {
+		var ad = "http://" + thisDest + ":" + thisPort;
+		console.log(ad + " continues down");
+	    }
+	    else {
+		var ad = "http://" + thisDest + ":" + thisPort;
+		console.log(ad + " is up");
+		goodAddress(source, ad);
+	    }
+	})
+	.on('error', function(e) {
+	    var ad = "http://" + thisDest + ":" + thisPort;
+	    console.log(ad + " continues down");
+	}) 
 }
 
 var checkTable = function(table, f) {
     for(var source in table){
-    var destination = table[source];
-    for(var i=0; i < destination.length; i++)
-    { 
-        var thisDest = url.parse(destination[i],true, false).hostname;
-        var thisPort = url.parse(destination[i],true, false).port;
-        console.log("checking -- " + thisDest + ":" + thisPort);
-        f(source, thisDest, thisPort);
-    }
+	var destination = table[source];
+	for(var i=0; i < destination.length; i++)
+	{ 
+	    var thisDest = url.parse(destination[i],true, false).hostname;
+	    var thisPort = url.parse(destination[i],true, false).port;
+	    console.log("checking -- " + thisDest + ":" + thisPort);
+	    f(source, thisDest, thisPort);
+	}
     }
 
 }
@@ -398,60 +398,38 @@ setInterval(function(){
 require('http').createServer(function(req, res) {  
     console.log(req.headers);
     if( req.headers.host != undefined && req.headers.host in routeTable) {
-    var cookies = new Cookies(req, res);
-    var address =  routeTable[req.headers.host][1];
-    if(stickSession) {
-        console.log("using sticky session");
-        if(cookies.get(req.headers.host) != undefined) {
-        address = cookies.get(req.headers.host);
-        }
-        else {
-        if(sessionExpiration == -1) {
-            cookies.set(req.headers.host, address);
-            console.log("no expiration on sticky session");
-        }
-        else {
-            var expiration = new Date(Date.now() + sessionExpiration * 1000);
-            console.log("sticky session will expire in " + sessionExpiration + " seconds");
-            cookies.set(req.headers.host, address, {expires:expiration});
-        }
-        
-        }
-    }
-    routeTable[req.headers.host].splice(routeTable[req.headers.host].indexOf(address), 1);
-    console.log(address);
-    routeTable[req.headers.host].push(address);
-    proxy.web(req, res, {
-        target: address
-    }, function (e) {console.log(e);});
-    console.log(routeTable);
+	var cookies = new Cookies(req, res);
+	var address =  routeTable[req.headers.host][1];
+	if(stickSession) {
+	    console.log("using sticky session");
+	    if(cookies.get(req.headers.host) != undefined) {
+		address = cookies.get(req.headers.host);
+	    }
+	    else {
+		if(sessionExpiration == -1) {
+			cookies.set(req.headers.host, address);
+		    console.log("no expiration on sticky session");
+		}
+		else {
+		    var expiration = new Date(Date.now() + sessionExpiration * 1000);
+		    console.log("sticky session will expire in " + sessionExpiration + " seconds");
+		    cookies.set(req.headers.host, address, {expires:expiration});
+		}
+		
+	    }
+	}
+	routeTable[req.headers.host].splice(routeTable[req.headers.host].indexOf(address), 1);
+	console.log(address);
+	routeTable[req.headers.host].push(address);
+	proxy.web(req, res, {
+	    target: address
+	}, function (e) {console.log(e);});
+	console.log(routeTable);
     }
     else
-    //Error handling
-    proxy.web(req,res, {target: req.headers.host});
+	//Error handling
+	proxy.web(req,res, {target: req.headers.host});
 }).listen(8000);
 
-//Port number for Aws-EC2
-require('http').createServer(function(req, res) {  
-  res.end('done@10001\n');
-}).listen(10001);
 
-//Port number for Aws-EC2
-require('http').createServer(function(req, res) {  
-  res.end('done@10002\n');
-}).listen(10002);
 
-//Port number for localhost:8080
-require('http').createServer(function(req, res) {  
-  res.end('done@8080\n');
-}).listen(8080);
-
-//Port number for localhost:8081
-require('http').createServer(function(req, res) {  
-  res.end('done@8081\n');
-}).listen(8081);
-
-//Port number for localhost:8082
-require('http').createServer(function(req, res) {  
-  res.end('done@8082\n');
-}).listen(8082);
