@@ -1,0 +1,34 @@
+<!DOCTYUpdatePE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>NODE-HTTP-PROXY</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="SaveTable.js"></script>
+</head>
+<body>
+    <p id="heading">NODE-HTTP-PROXY SERVER</p>
+    <p class="small"><a target="_blank">Add new Routing Address</a>
+    <hr />
+    <p>Enter new Route Address:</p>
+    <textarea id="json" class="text"></textarea>
+    <br />
+    <input id="quote" type="checkbox" checked="false" /> Wrap values in double quotes
+    <br />
+    <input id="labels" type="checkbox" checked="false" /> Include labels in first row
+    <br/>
+    <br/>
+    <select>
+        <option value="Get">GET</option>
+        <option value="Post">POST</option>
+        <option value="Put">PUT</option>
+        <option value="Delete">DELETE</option>
+    </select>
+    <br />
+    <br/>
+    <br/>
+    <button id="convert">Send Request</button>
+    &nbsp;&nbsp;
+    <button id="download">Reset</button>
+    <!--<textarea id="csv" class="text"></textarea>-->
+</body>
+</html>
