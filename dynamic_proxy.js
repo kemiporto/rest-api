@@ -25,7 +25,7 @@ var badRouteTable = { }
 //adding rout table information in the disk
 setInterval(function(){
   //var j = 1;
-    console.log("inside write");
+    //console.log("inside write");
     fs.writeFile('routeTableLatest.txt','Latest Routing Table ' + "\r\n", function (err) {
         if (err) throw err;
             console.log('File Created');
@@ -34,7 +34,7 @@ setInterval(function(){
        // var dest_table = routeTable[j];
         fs.appendFile('routeTableLatest.txt', "\r\n" + routeTable[j], function (err) {
         if (err) throw err;
-        console.log('saved!'); 
+        //console.log('saved!'); 
         }
         );      
         
@@ -43,14 +43,14 @@ setInterval(function(){
 
 //saving bad routing to the disk
 setInterval(function(){
-  //var j = 1;
+ 
     console.log("inside write");
     fs.writeFile('routeDownAddrTableLatest.txt','Latest Down Address Routing Table ' + "\r\n", function (err) {
         if (err) throw err;
             console.log('File Created for Down Address');
     });
       for(var k in badRouteTable){
-       // var dest_table = routeTable[j];
+       
         fs.appendFile('routeDownAddrTableLatest.txt', "\r\n" + badRouteTable[k], function (err) {
         if (err) throw err;
         console.log('saved!'); 
