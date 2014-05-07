@@ -47,7 +47,7 @@ setInterval(function(){
     //console.log("inside write");
     fs.writeFile('routeDownAddrTableLatest.txt','Latest Down Address Routing Table ' + "\r\n", function (err) {
         if (err) throw err;
-            //console.log('File Created for Down Address');
+            console.log('File Created for Bad Address');
     });
       for(var k in badRouteTable){
        
