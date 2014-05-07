@@ -20,3 +20,8 @@ User-Stories:
 
 8.Deployed the code on AWS EC2 
 
+9.Node-http-proxy server is a programmable proxy server and load balancer.
+
+10.Proxy server is a server that acts as an intermediary for requests from clients seeking resources from other servers.
+
+
