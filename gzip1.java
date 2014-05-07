@@ -17,13 +17,13 @@ connect.createServer(
   function (req, res) {
     proxy.web(req, res);
   }
-).listen(8012);
+).listen(8000);
 
 //
 // Basic Http Proxy Server
 //
 var proxy = httpProxy.createProxyServer({
-  target: 'http://localhost:9012'
+  target: 'http://localhost:8888'
 });
 
 //
@@ -35,5 +35,5 @@ http.createServer(function (req, res) {
   res.end();
 }).listen(9012);
 // To print the message in different colors
-util.puts('http proxy server'.blue + ' started '.green.bold + 'on port '.blue + '8012'.yellow);
-util.puts('http server '.blue + 'started '.green.bold + 'on port '.blue + '9012 '.yellow);c
+util.puts('http proxy server'.blue + ' running '.green.bold + 'on port '.blue + '8000'.yellow);
+util.puts('http server '.blue + 'running '.green.bold + 'on port '.blue + '8888 '.yellow);c
