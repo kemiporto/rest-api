@@ -6,7 +6,8 @@ var proxy = httpProxy.createProxy();
 var restify = require('restify');
 var validator = require('validator');
 var Cookies = require('cookies');
-
+var url = require('url');
+var fs = require('fs');
 var stickSession = false;
 
 var sessionExpiration = 5;
@@ -18,6 +19,9 @@ var routeTable = {
     'foo.com': ['http://localhost:10001', 'http://localhost:10002', 'http://localhost:8081', 'http://localhost:8080', 'http://localhost:8082'],
     'remote.com' :['http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10001', 'http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10002']
 }
+
+var badRouteTable = { }
+
 //adding rout table information in the disk
 setInterval(function(){
   //var j = 1;
