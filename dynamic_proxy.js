@@ -19,6 +19,24 @@ var routeTable = {
     'remote.com' :['http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10001', 'http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10002']
 }
 
+setInterval(function(){
+  //var j = 1;
+    console.log("inside write");
+    fs.writeFile('routeTableLatest.txt','Latest Routing Table ' + "\r\n", function (err) {
+        if (err) throw err;
+            console.log('File Created');
+    });
+      for(var j in routeTable){
+       // var dest_table = routeTable[j];
+        fs.appendFile('routeTableLatest.txt', "\r\n" + routeTable[j], function (err) {
+        if (err) throw err;
+        console.log('saved!'); 
+        }
+        );      
+        
+    
+}},25000);
+
 // We are creating a Restify server using the Restify Framework
 var server = restify.createServer();
 
@@ -305,6 +323,95 @@ http://localhost:8888/sticksession/setStick?sticksession=true will set stickSess
 http://localhost:8888/sticksession/setExpiration?expiration=10 will set expirationTime to 10
 */
 
+var badAddress = function(source, destination) {
+    console.log("removing -- " + source + "/" + destination);
+    var index = routeTable[source].indexOf(destination);
+    if(index == -1) {
+	return;
+    }
+    routeTable[source].splice(index, 1);
+    console.log(source + "/" + destination + " deleted")
+    console.log(routeTable);
+    if(source in badRouteTable) {
+	badRouteTable[source].push(destination);
+    }
+    else {
+	badRouteTable[source] = [destination];
+    }
+}
+
+var goodAddress = function(source, destination) {
+    console.log("adding -- " + source + "/" + destination);
+    var index = badRouteTable[source].indexOf(destination);
+    if(index == -1) {
+	return;
+    }
+    badRouteTable[source].splice(index, 1);
+    routeTable[source].push(destination);
+    console.log(source + "/" + destination + " added")
+    console.log(routeTable);
+}
+
+var checkUp = function(source, thisDest, thisPort) {
+    require('http').get(
+	{hostname:thisDest, port:thisPort, path:'/', agent:false}, 
+	function(response) {
+	    if(response.statusCode!=200) {
+		var ad = "http://" + thisDest + ":" + thisPort;
+		console.log(ad + " is down");
+		badAddress(source, ad);
+	    }
+	    else {
+		console.log(thisDest + ":" + thisPort + " continues up");
+	    }
+	})
+	.on('error', function(e) {
+	    var ad = "http://" + thisDest + ":" + thisPort;
+	    console.log(ad + " is down");
+	    badAddress(source, ad);
+	}) 
+}
+
+var checkDown = function(source, thisDest, thisPort) {
+    require('http').get(
+	{hostname:thisDest, port:thisPort, path:'/', agent:false}, 
+	function(response) {
+	    if(response.statusCode!=200) {
+		var ad = "http://" + thisDest + ":" + thisPort;
+		console.log(ad + " continues down");
+	    }
+	    else {
+		var ad = "http://" + thisDest + ":" + thisPort;
+		console.log(ad + " is up");
+		goodAddress(source, ad);
+	    }
+	})
+	.on('error', function(e) {
+	    var ad = "http://" + thisDest + ":" + thisPort;
+	    console.log(ad + " continues down");
+	}) 
+}
+
+var checkTable = function(table, f) {
+    for(var source in table){
+	var destination = table[source];
+	for(var i=0; i < destination.length; i++)
+	{ 
+	    var thisDest = url.parse(destination[i],true, false).hostname;
+	    var thisPort = url.parse(destination[i],true, false).port;
+	    console.log("checking -- " + thisDest + ":" + thisPort);
+	    f(source, thisDest, thisPort);
+	}
+    }
+
+}
+
+setInterval(function(){
+    checkTable(routeTable, checkUp);
+    checkTable(badRouteTable, checkDown);
+    
+},15000);
+
 //Code for Load-Balancer. Uses Round-Robin to balance the nodes.
 require('http').createServer(function(req, res) {  
     console.log(req.headers);
@@ -341,28 +448,3 @@ require('http').createServer(function(req, res) {
 	//Error handling
 	proxy.web(req,res, {target: req.headers.host});
 }).listen(8000);
-
-//Port number for Aws-EC2
-require('http').createServer(function(req, res) {  
-  res.end('done@10001\n');
-}).listen(10001);
-
-//Port number for Aws-EC2
-require('http').createServer(function(req, res) {  
-  res.end('done@10002\n');
-}).listen(10002);
-
-//Port number for localhost:8080
-require('http').createServer(function(req, res) {  
-  res.end('done@8080\n');
-}).listen(8080);
-
-//Port number for localhost:8081
-require('http').createServer(function(req, res) {  
-  res.end('done@8081\n');
-}).listen(8081);
-
-//Port number for localhost:8082
-require('http').createServer(function(req, res) {  
-  res.end('done@8082\n');
-}).listen(8082);
