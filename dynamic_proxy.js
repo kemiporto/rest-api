@@ -154,6 +154,32 @@ console.log("Client IP:--->:"+IP1);
 server.use(restify.queryParser());
 server.put('/route/:source', putRoute);
 
+var putStickSession = function(req, res) {
+    console.log(req.query);
+    if(req.query.sticksession != undefined) {
+	stickSession = req.query.sticksession;
+	res.end('updated stick session to: ' + req.query.sticksession);
+    }
+    else {
+	res.send("sticksession query parameter must be true or false");
+    }
+}
+
+server.put('/sticksession/setStick', putStickSession);
+
+var putExpirationTime = function(req, res) {
+    console.log(req.query);
+    if(req.query.expiration != undefined) {
+	expirationTime = req.query.expiration;
+	res.end('updated expiration time of stick session to: ' + req.query.expiration);
+    }
+    else {
+	res.send("expiration query parameter must have a value (in seconds)");
+    }
+}
+
+server.put('/sticksession/setExpiration', putExpirationTime);
+
 //checks if the route is present in the routing table , if presents then updpates it else gives message to user
 var putAddRoute = function(req, res) {
 	 IP1 = getClientAddress(req);
