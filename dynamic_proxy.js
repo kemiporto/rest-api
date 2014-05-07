@@ -5,6 +5,7 @@ var httpProxy = require('http-proxy');
 var proxy = httpProxy.createProxy();
 var restify = require('restify');
 var validator = require('validator');
+var IP1;
 
 //contains the routing information. It has the default routing table
 var routeTable = {  
@@ -51,6 +52,13 @@ var respondRouteTableItem = function(req, res) {
 };
 
 server.get('/route/:source', respondRouteTableItem);
+
+//get the client address by X-forwarded-for method
+var getClientAddress = function (req) {
+    return (req.headers['x-forwarded-for'] || '').split(',')[0] 
+        || req.connection.remoteAddress;
+};
+
 // create a new routing path if it doesn't exist already in routing table , if already exists then displays an message
 var postRoute = function(req, res) {
     console.log(req.body);
