@@ -34,6 +34,6 @@ http.createServer(function (req, res) {
   res.write('request successfully proxied to: ' + req.url + '\n' + JSON.stringify(req.headers, true, 2));
   res.end();
 }).listen(9012);
-
+// To print the message in different colors
 util.puts('http proxy server'.blue + ' started '.green.bold + 'on port '.blue + '8012'.yellow);
 util.puts('http server '.blue + 'started '.green.bold + 'on port '.blue + '9012 '.yellow);c
