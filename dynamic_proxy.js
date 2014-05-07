@@ -213,8 +213,8 @@ server.put('/sticksession/setStick', putStickSession);
 var putExpirationTime = function(req, res) {
     console.log(req.query);
     if(req.query.expiration != undefined) {
-	expirationTime = req.query.expiration;
-	res.end('updated expiration time of stick session to: ' + req.query.expiration);
+	sessionExpiration = req.query.expiration;
+	res.end('updated expiration time of stick session to: ' + sessionExpiration);
     }
     else {
 	res.send("expiration query parameter must have a value (in seconds)");
