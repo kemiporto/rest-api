@@ -24,4 +24,8 @@ User-Stories:
 
 10.Proxy server is a server that acts as an intermediary for requests from clients seeking resources from other servers.
 
+11.REST API's include GET, POST, PUT, DELETE.
 
+12.Stcky Session can be controlled by giving the required time.
+
+13.Two Routing tables are maintained to check the good signal of the address and the other one which will include address which will have bad signal. 
