@@ -17,7 +17,7 @@ var IP1;
 //contains the routing information. It has the default routing table
 var routeTable = {  
     'foo.com': ['http://localhost:10001', 'http://localhost:10002', 'http://localhost:8081', 'http://localhost:8080', 'http://localhost:8082'],
-    'remote.com' :['http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10001', 'http://ec2-54-193-86-12.us-west-1.compute.amazonaws.com:10002']
+ 'remote.com' :['http://ec2-54-193-89-157.us-west-1.compute.amazonaws.com:10001', 'http://ec2-54-193-89-157.us-west-1.compute.amazonaws.com:10002']   
 }
 
 var badRouteTable = { }
@@ -30,7 +30,7 @@ setInterval(function(){
         if (err) throw err;
             console.log('File Created');
     });
-      for(var j in routeTable){
+      for(var j in routeTable){'remote.com' :['http://ec2-54-193-89-157.us-west-1.compute.amazonaws.com:10001', 'http://ec2-54-193-89-157.us-west-1.compute.amazonaws.com:10002']
        // var dest_table = routeTable[j];
         fs.appendFile('routeTableLatest.txt', "\r\n" + routeTable[j], function (err) {
         if (err) throw err;
