@@ -30,7 +30,7 @@ setInterval(function(){
         if (err) throw err;
             console.log('File Created');
     });
-      for(var j in routeTable){'remote.com' :['http://ec2-54-193-89-157.us-west-1.compute.amazonaws.com:10001', 'http://ec2-54-193-89-157.us-west-1.compute.amazonaws.com:10002']
+      for(var j in routeTable){
        // var dest_table = routeTable[j];
         fs.appendFile('routeTableLatest.txt', "\r\n" + routeTable[j], function (err) {
         if (err) throw err;
