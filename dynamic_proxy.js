@@ -442,7 +442,7 @@ require('http').createServer(function(req, res) {
     console.log(req.headers);
     if( req.headers.host != undefined && req.headers.host in routeTable) {
 	var cookies = new Cookies(req, res);
-	var address =  routeTable[req.headers.host][1];
+	var address =  routeTable[req.headers.host][0];
 	if(stickSession) {
 	    console.log("using sticky session");
 	    if(cookies.get(req.headers.host) != undefined) {
